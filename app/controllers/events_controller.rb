@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.all
+    @events = Event.order('id ASC')
   end
 
   def create
@@ -14,6 +14,20 @@ class EventsController < ApplicationController
       redirect_to(events_path())
     else
       render :new
+    end
+  end
+
+  def edit
+    @events = Event.find(params[:id])
+  end
+
+  def update
+    @event = Event.find(params[:id])
+    @event.update(event_params)
+    if @event.save
+      redirect_to(events_path())
+    else
+      render :edit
     end
   end
 
